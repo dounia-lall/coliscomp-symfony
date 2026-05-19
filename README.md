@@ -122,30 +122,69 @@ http://localhost:8000
 
 ![Inscription](screenshots/inscription.png)
 
-### Tableau de bord expéditeur
+### Dashboard expéditeur
 
 ![Dashboard Expéditeur](screenshots/dashboard-expediteur.png)
 
-### Tableau de bord transporteur
+### Dashboard transporteur
 
 ![Dashboard Transporteur](screenshots/dashboard-transporteur.png)
 
-### Publication d’un colis
+### Publier un colis
 
 ![Publier Colis](screenshots/publier-colis.png)
 
-### Publication d’un trajet
+### Publier un trajet
 
 ![Publier Trajet](screenshots/publier-trajet.png)
 
-### Colis disponibles
+### Liste des colis
 
-![Colis Disponibles](screenshots/colis-disponibles.png)
+![Liste Colis](screenshots/liste-colis.png)
 
-### Transactions
+### Liste des transporteurs
 
-![Transactions](screenshots/transactions.png)
+![Liste Transporteurs](screenshots/liste-transporteurs.png)
 
+### Mes colis
+
+![Mes Colis](screenshots/mes-colis.png)
+
+### Mes trajets
+
+![Mes Trajets](screenshots/mes-trajets.png)
+
+### Mes transports
+
+![Mes Transports](screenshots/mes-transports.png)
+
+### Mes envois
+
+![Mes Envois](screenshots/mes-envois.png)
+
+### Paiement
+
+![Paiement](screenshots/paiement.png)
+
+### Tarifs
+
+![Tarifs](screenshots/tarifs.png)
+
+### Livraison terminée
+
+![Livraison Terminée](screenshots/livraison-terminee.png)
+
+### Messagerie
+
+![Messagerie](screenshots/messagerie-expediteur-transporteur.png)
+
+### Transport avec messages
+
+![Transport Messages](screenshots/transport-avec-messages.png)
+
+### Transporteurs disponibles
+
+![Transporteurs Disponibles](screenshots/transporteurs-disponibles.png)
 ---
 
 ## Améliorations réalisées
