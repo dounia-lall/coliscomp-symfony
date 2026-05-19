@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ColisComp{% endblock %}</title>
+  <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+</head>
+
+<body>
+<header class="nav">
+  <a class="brand" href="{{ path('app_home') }}">
+    <span class="brand-icon">CC</span> Colis<span>Comp</span>
+  </a>
+
+  <input class="menu-toggle" type="checkbox" id="menu-toggle" aria-label="Ouvrir le menu">
+  <label class="menu-button" for="menu-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
+
+  <nav class="nav-links">
+    {% set user = app.session.get('user') %}
+    {% set route = app.request.attributes.get('_route') %}
+
+    {% if user %}
+      {% if user.role == 'expediteur' %}
+        <a class="{{ route == 'app_new_besoin' ? 'active' : '' }}" href="{{ path('app_new_besoin') }}">
+          Envoyer un colis
+        </a>
+
+        <a class="{{ route == 'app_my_besoins' ? 'active' : '' }}" href="{{ path('app_my_besoins') }}">
+          Mes colis
+        </a>
+
+        <a class="{{ route == 'app_trajets' ? 'active' : '' }}" href="{{ path('app_trajets') }}">
+          Transporteurs
+        </a>
+      {% else %}
+        <a class="{{ route == 'app_new_trajet' ? 'active' : '' }}" href="{{ path('app_new_trajet') }}">
+          Proposer un trajet
+        </a>
+
+        <a class="{{ route == 'app_my_trajets' ? 'active' : '' }}" href="{{ path('app_my_trajets') }}">
+          Mes trajets
+        </a>
+
+        <a class="{{ route == 'app_besoins' ? 'active' : '' }}" href="{{ path('app_besoins') }}">
+          Colis disponibles
+        </a>
+      {% endif %}
+
+      <a class="nav-notification {{ route == 'app_transactions' ? 'active' : '' }}" href="{{ path('app_transactions') }}">
+        {{ user.role == 'expediteur' ? 'Mes envois' : 'Mes transports' }}
+        {% if user.notification_count|default(0) > 0 %}
+          <span>{{ user.notification_count }}</span>
+        {% endif %}
+      </a>
+
+      <a class="{{ route == 'app_tarifs' ? 'active' : '' }}" href="{{ path('app_tarifs') }}">
+        Tarifs
+      </a>
+
+      <span class="pill">
+        {{ user.prenom }} - {{ user.role == 'expediteur' ? 'expéditeur' : 'transporteur' }}
+      </span>
+
+      <a href="{{ path('app_logout') }}">Se déconnecter</a>
+    {% else %}
+      <a class="btn small" href="{{ path('app_login') }}">Connexion</a>
+      <a class="btn small secondary" href="{{ path('app_register') }}">Inscription</a>
+    {% endif %}
+  </nav>
+</header>
+
+{% for label, messages in app.flashes %}
+  {% for message in messages %}
+    <div class="flash {{ label }}">{{ message }}</div>
+  {% endfor %}
+{% endfor %}
+
+<main>
+  {% block body %}{% endblock %}
+</main>
+
+<footer class="footer">
+  &copy; 2026 ColisComp — Plateforme collaborative de transport de colis.
+</footer>
+</body>
+</html>

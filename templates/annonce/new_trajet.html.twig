@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ is_edit|default(false) ? 'Modifier un trajet' : 'Proposer un trajet' }}{% endblock %}
+{% block body %}
+<section class="form-shell">
+  <div class="form-copy">
+    <p class="eyebrow">Transporteur</p>
+    <h1>{{ is_edit|default(false) ? 'Modifier ton trajet' : 'Publier un trajet disponible' }}</h1>
+    <p>Indique les villes, les dates, les limites de poids et le prix. Le trajet reste modifiable tant qu aucun expediteur ne l a selectionne.</p>
+  </div>
+  <form method="post" class="form-card wide">
+    {% if errors is defined and errors %}
+      <div class="alert">{% for error in errors %}<p>{{ error }}</p>{% endfor %}</div>
+    {% endif %}
+    <div class="two">
+      <input name="point_depart" placeholder="Point de depart" value="{{ values.point_depart|default('') }}" required>
+      <input name="destination" placeholder="Destination" value="{{ values.destination|default('') }}" required>
+    </div>
+    <textarea name="description" placeholder="Description des colis acceptes">{{ values.description|default('') }}</textarea>
+    <div class="three">
+      <input type="number" step="0.01" min="0" name="poids" placeholder="Poids max kg" value="{{ values.poids|default('') }}">
+      <input type="date" name="date_depart" value="{{ values.date_depart|default('') }}" required>
+      <input type="date" name="date_arrivee_prevue" value="{{ values.date_arrivee_prevue|default('') }}">
+    </div>
+    <div class="four">
+      <input type="number" step="0.01" min="0" name="hauteur" placeholder="Hauteur cm" value="{{ values.hauteur|default('') }}">
+      <input type="number" step="0.01" min="0" name="largeur" placeholder="Largeur cm" value="{{ values.largeur|default('') }}">
+      <input type="number" step="0.01" min="0" name="longueur" placeholder="Longueur cm" value="{{ values.longueur|default('') }}">
+      <input type="number" step="0.01" min="0" name="prix" placeholder="Prix propose" value="{{ values.prix|default('') }}" required>
+    </div>
+    <div class="actions-row">
+      <button class="btn" type="submit">{{ is_edit|default(false) ? 'Enregistrer' : 'Publier le trajet' }}</button>
+      <a class="btn secondary" href="{{ path('app_my_trajets') }}">Retour</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

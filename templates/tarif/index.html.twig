@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tarifs{% endblock %}
+{% block body %}
+<section class="tarif">
+  <h1>Estimer un prix de livraison</h1>
+  <p>Cette estimation donne un budget indicatif selon la distance, la taille et le poids du colis.</p>
+  <div class="calculator">
+    <label>Distance
+      <select id="distance"><option value="8">0 à 50 km</option><option value="18">50 a 100 km</option><option value="35">100 a 500 km</option><option value="55">Plus de 500 km</option></select>
+    </label>
+    <label>Taille
+      <select id="size"><option value="3">Petit colis</option><option value="6">Carton moyen</option><option value="10">Grand carton</option><option value="16">Volumineux</option></select>
+    </label>
+    <label>Poids
+      <input id="weight" type="number" min="0" step="0.5" value="1">
+    </label>
+    <div class="price">Prix recommande : <strong id="price">0 &euro;</strong></div>
+  </div>
+</section>
+<script>
+function calc(){const total=Number(distance.value)+Number(size.value)+Math.max(0,Number(weight.value||0))*0.8;price.textContent=Math.ceil(total)+' €';}
+distance.onchange=size.onchange=weight.oninput=calc;calc();
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes colis{% endblock %}
+{% block body %}
+<section class="page-title">
+  <h1>Mes colis</h1>
+  <a class="btn" href="{{ path('app_new_besoin') }}">Ajouter un colis</a>
+</section>
+
+<div class="grid owner-list">
+  {% for a in annonces %}
+    <article class="owner-card">
+      <div class="owner-main">
+        {% if a.PhotoColis|default(null) %}
+          <img class="colis-thumb" src="{{ asset('uploads/colis/' ~ a.PhotoColis) }}" alt="Photo du colis">
+        {% endif %}
+        <div class="badge green">Colis #{{ a.ID }}</div>
+        <h3>{{ a.PointDepartSouhaite }} &rarr; {{ a.DestinationSouhaitee }}</h3>
+        <p>{{ a.DescriptionColis }}</p>
+        <div class="details">
+          <span>{{ a.PoidsColis }} kg</span>
+          <span>{{ a.Budget }} &euro;</span>
+          <span>{{ a.Statut }}</span>
+        </div>
+      </div>
+      <div class="owner-actions">
+        {% if not a.IsLocked %}
+          <a class="btn small secondary" href="{{ path('app_edit_besoin', {id: a.ID}) }}">Modifier</a>
+        {% else %}
+          <span class="step">Modification bloquee</span>
+        {% endif %}
+      </div>
+    </article>
+  {% else %}
+    <p class="empty">Aucun colis.</p>
+  {% endfor %}
+</div>
+{% endblock %}

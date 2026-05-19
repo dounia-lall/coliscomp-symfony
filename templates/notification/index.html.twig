@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Notifications{% endblock %}
+{% block body %}
+<section class="page-title"><h1>Notifications</h1></section>
+<div class="grid cards list">
+{% for n in notifications %}
+  <article class="notification-card {{ n.IsRead ? '' : 'unread' }}">
+    <div><div class="badge">{{ n.IsRead ? 'Lu' : 'Nouveau' }}</div><h3>{{ n.Titre }}</h3><p>{{ n.Message }}</p><span class="muted">{{ n.CreatedAt }}</span></div>
+    {% if n.TransactionID %}<a class="btn small secondary" href="{{ path('app_transactions') }}">Voir la transaction</a>{% endif %}
+  </article>
+{% else %}
+  <p class="empty">Aucune notification pour le moment.</p>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+{% block title %}Colis disponibles{% endblock %}
+{% block body %}
+<section class="page-title">
+  <div>
+    <p class="eyebrow">Opportunites</p>
+    <h1>Colis disponibles</h1>
+  </div>
+</section>
+
+<form class="search" method="get">
+  <input name="depart" placeholder="Ville de départ" value="{{ app.request.query.get('depart') }}">
+  <input name="destination" placeholder="Ville d'arrivée" value="{{ app.request.query.get('destination') }}">
+  <button type="submit">Rechercher</button>
+</form>
+
+<div class="grid cards list">
+{% for a in annonces %}
+  <article class="listing-card">
+    <div class="listing-main">
+      {% if a.PhotoColis|default(null) %}
+        <img class="colis-thumb listing-photo" src="{{ asset('uploads/colis/' ~ a.PhotoColis) }}" alt="Photo du colis">
+      {% endif %}
+      <div class="badge green">Expéditeur</div>
+      <h3>{{ a.PointDepartSouhaite }} &rarr; {{ a.DestinationSouhaitee }}</h3>
+      <p>{{ a.DescriptionColis ?: 'Sans déscription' }}</p>
+      <div class="details">
+        <span>Date limite : {{ a.DateLimiteEnvoi }}</span>
+        <span>Poids : {{ a.PoidsColis }} kg</span>
+        <span>Nombre : {{ a.nombres_de_colis }}</span>
+        <span>Expéditeur : {{ a.Prenom ?: 'Non renseigne' }}</span>
+      </div>
+    </div>
+    <aside class="listing-action">
+      <span class="muted">Budget</span>
+      <strong>{{ a.Budget }} &euro;</strong>
+      <form method="post" action="{{ path('app_accept_besoin', {id: a.ID}) }}">
+        <button class="btn small" type="submit">Transporter</button>
+      </form>
+    </aside>
+  </article>
+{% else %}
+  <p class="empty">Aucun colis actif trouve.</p>
+{% endfor %}
+</div>
+{% endblock %}

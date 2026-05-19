@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+{% block title %}Transporteurs disponibles{% endblock %}
+{% block body %}
+<section class="page-title">
+  <div>
+    <p class="eyebrow">Trajets actifs</p>
+    <h1>Transporteurs disponibles</h1>
+  </div>
+</section>
+
+<form class="search" method="get">
+  <input name="depart" placeholder="Ville de départ" value="{{ app.request.query.get('depart') }}">
+  <input name="destination" placeholder="Déstination" value="{{ app.request.query.get('destination') }}">
+  <button type="submit">Rechercher</button>
+</form>
+
+<div class="grid cards list">
+{% for a in annonces %}
+  <article class="listing-card">
+    <div class="listing-main">
+      <div class="badge">Transporteur</div>
+      <h3>{{ a.PointDepart }} &rarr; {{ a.Destination }}</h3>
+      <p>{{ a.DescriptionColis ?: 'Colis acceptes selon discussion.' }}</p>
+      <div class="details">
+        <span>Transporteur : {{ a.Prenom ?: 'Non renseigne' }}</span>
+        <span>Depart : {{ a.DateDepart }}</span>
+        <span>Arrivee : {{ a.DateArriveePrevue ?: 'A confirmer' }}</span>
+        <span>Poids max : {{ a.PoidsColis ?: 0 }} kg</span>
+      </div>
+    </div>
+    <aside class="listing-action">
+      <span class="muted">Prix propose</span>
+      <strong>{{ a.PrixPropose }} &euro;</strong>
+      <form method="post" action="{{ path('app_choose_trajet', {id: a.ID}) }}">
+        <button class="btn small" type="submit">Selectionner</button>
+      </form>
+    </aside>
+  </article>
+{% else %}
+  <p class="empty">Aucun trajet actif trouve.</p>
+{% endfor %}
+</div>
+{% endblock %}

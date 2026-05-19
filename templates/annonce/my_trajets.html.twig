@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes trajets{% endblock %}
+{% block body %}
+<section class="page-title">
+  <h1>Mes trajets</h1>
+  <a class="btn" href="{{ path('app_new_trajet') }}">Ajouter un trajet</a>
+</section>
+
+<div class="grid owner-list">
+  {% for a in annonces %}
+    <article class="owner-card">
+      <div class="owner-main">
+        <div class="badge">Trajet #{{ a.ID }}</div>
+        <h3>{{ a.PointDepart }} &rarr; {{ a.Destination }}</h3>
+        <p>{{ a.DescriptionColis }}</p>
+        <div class="details">
+          <span>Depart : {{ a.DateDepart }}</span>
+          <span>{{ a.PrixPropose }} &euro;</span>
+          <span>{{ a.Statut }}</span>
+        </div>
+      </div>
+      <div class="owner-actions">
+        {% if not a.IsLocked %}
+          <a class="btn small secondary" href="{{ path('app_edit_trajet', {id: a.ID}) }}">Modifier</a>
+        {% else %}
+          <span class="step">Modification bloquee</span>
+        {% endif %}
+      </div>
+    </article>
+  {% else %}
+    <p class="empty">Aucun trajet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

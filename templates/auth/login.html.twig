@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion - ColisComp{% endblock %}
+
+{% block body %}
+<section class="auth-page">
+  <div class="auth-hero">
+    <p class="eyebrow">ColisComp</p>
+    <h1>Connecte-toi à ton espace.</h1>
+    <p>Retrouve tes colis, tes trajets, tes notifications et tes paiements depuis un tableau de bord adapte a ton role.</p>
+  </div>
+
+  <div class="auth-card">
+    <p class="eyebrow">Connexion</p>
+    <h2>Bon retour</h2>
+
+    {% if error is defined %}
+      <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ path('app_login') }}" class="clean-form">
+      <label>
+        Email
+        <input type="email" name="email_connexion" placeholder="exemple@email.com" required>
+      </label>
+      <label>
+        Mot de passe
+        <input type="password" name="motDePasse_connexion" placeholder="Ton mot de passe" required>
+      </label>
+      <button class="btn" type="submit">Se connecter</button>
+    </form>
+
+    <div class="auth-switch">
+      <span>Pas encore de compte ?</span>
+      <a href="{{ path('app_register') }}">Créer un compte</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

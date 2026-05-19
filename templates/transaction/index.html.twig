@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ app.session.get('user').role == 'expediteur' ? 'Mes envois' : 'Mes transports' }}{% endblock %}
+{% block body %}
+{% set user = app.session.get('user') %}
+<section class="page-title compact-title">
+  <div>
+    <p class="eyebrow">{{ user.role == 'expediteur' ? 'Espace expéditeur' : 'Espace transporteur' }}</p>
+    <h1>{{ user.role == 'expediteur' ? 'Mes envois' : 'Mes transports' }}</h1>
+  </div>
+</section>
+
+<div class="transaction-list">
+{% for t in transactions %}
+  {% set depart = t.TrajetDepart ?: t.BesoinDepart %}
+  {% set destination = t.TrajetDestination ?: t.BesoinDestination %}
+  <article class="transaction-card pro-transaction">
+    <div class="transaction-main">
+      <div class="transaction-head">
+        <span class="badge">Transaction #{{ t.ID }}</span>
+        <span class="status-pill status-{{ t.StatutTransaction }}">{{ t.StatutTransaction|replace({'_':' '}) }}</span>
+      </div>
+      <h3>{{ depart ?: 'Depart a confirmer' }} &rarr; {{ destination ?: 'Destination a confirmer' }}</h3>
+      {% if t.BesoinPhoto|default(null) %}
+        <img class="colis-thumb transaction-photo" src="{{ asset('uploads/colis/' ~ t.BesoinPhoto) }}" alt="Photo du colis">
+      {% endif %}
+      <p>{{ t.BesoinDescription ?: t.TrajetDescription ?: 'Aucune description' }}</p>
+      <div class="details">
+        <span>Expediteur : {{ t.ExpediteurPrenom ?: 'Non renseigne' }}</span>
+        <span>Transporteur : {{ t.LivreurPrenom ?: 'Non renseigne' }}</span>
+      </div>
+
+      <div class="transaction-history">
+        <h4>Historique</h4>
+        {% for n in t.notifications %}
+          <div class="history-item {{ n.IsRead ? '' : 'unread' }}">
+            <strong>{{ n.Titre }}</strong>
+            <span>{{ n.Message }}</span>
+          </div>
+        {% else %}
+          <div class="history-item muted-line">Aucune etape enregistree pour le moment.</div>
+        {% endfor %}
+      </div>
+
+      <div class="message-box">
+        <h4>Messagerie</h4>
+        <div class="message-thread">
+          {% for m in t.messages %}
+            <div class="message-bubble {{ m.SenderID == user.id ? 'mine' : '' }}">
+              <strong>{{ m.SenderPrenom ?: 'Utilisateur' }}</strong>
+              <span>{{ m.Contenu }}</span>
+            </div>
+          {% else %}
+            <p class="muted">Aucun message. Ecris le premier message pour organiser la livraison.</p>
+          {% endfor %}
+        </div>
+        <form method="post" action="{{ path('app_send_message', {id: t.ID}) }}" class="message-form">
+          <input name="message" placeholder="Ecrire un message..." required>
+          <button class="btn small" type="submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
+
+    <aside class="payment-panel payment-pro">
+      <span class="muted">Montant a regler</span>
+      <strong>{{ t.PrixConvenu }} &euro;</strong>
+      {% if t.StatutTransaction == 'en_attente_validation' %}
+        <p>Le transporteur doit confirmer la prise en charge avant le paiement.</p>
+      {% elseif t.StatutTransaction == 'en_attente_paiement' %}
+        <p>Paiement securise pret. Utilise une carte de test pour valider le parcours.</p>
+      {% elseif t.StatutTransaction == 'paye' %}
+        <p>Paiement confirme. La livraison peut commencer.</p>
+      {% elseif t.StatutTransaction == 'en_livraison' %}
+        <p>Livraison en cours. Reste en contact via la messagerie.</p>
+      {% elseif t.StatutTransaction == 'termine' %}
+        <p>Livraison terminee.</p>
+      {% else %}
+        <p>Transaction annulee.</p>
+      {% endif %}
+      <div class="actions-row">
+        {% if user.role == 'livreur' and t.StatutTransaction == 'en_attente_validation' %}
+          <form method="post" action="{{ path('app_validate_transaction', {id: t.ID}) }}"><button class="btn small" type="submit">Valider</button></form>
+          <form method="post" action="{{ path('app_refuse_transaction', {id: t.ID}) }}"><button class="btn small danger" type="submit">Refuser</button></form>
+        {% endif %}
+        {% if user.role == 'expediteur' and t.StatutTransaction == 'en_attente_paiement' %}
+          <form method="post" action="{{ path('app_pay_transaction', {id: t.ID}) }}"><button class="btn small pay-btn" type="submit">Payer {{ t.PrixConvenu }} &euro;</button></form>
+        {% endif %}
+        {% if user.role == 'livreur' and t.StatutTransaction == 'paye' %}
+          <form method="post" action="{{ path('app_start_delivery', {id: t.ID}) }}"><button class="btn small" type="submit">Demarrer</button></form>
+        {% endif %}
+        {% if user.role == 'livreur' and t.StatutTransaction == 'en_livraison' %}
+          <form method="post" action="{{ path('app_finish_delivery', {id: t.ID}) }}"><button class="btn small" type="submit">Terminer</button></form>
+        {% endif %}
+      </div>
+    </aside>
+  </article>
+{% else %}
+  <p class="empty">Aucune transaction pour le moment.</p>
+{% endfor %}
+</div>
+{% endblock %}

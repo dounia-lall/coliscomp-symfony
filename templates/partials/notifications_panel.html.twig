@@ -1,0 +1,18 @@
+{% if notifications is defined %}
+  <section class="embedded-notifications">
+    <div>
+      <p class="eyebrow">Notifications</p>
+      <h2>Activite recente</h2>
+    </div>
+    <div class="notification-strip">
+      {% for n in notifications %}
+        <article class="notification-chip {{ n.IsRead ? '' : 'unread' }}">
+          <strong>{{ n.Titre }}</strong>
+          <span>{{ n.Message }}</span>
+        </article>
+      {% else %}
+        <p class="empty compact">Aucune notification pour le moment.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}

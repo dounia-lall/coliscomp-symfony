@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - ColisComp{% endblock %}
+
+{% block body %}
+<section class="auth-page">
+  <div class="auth-hero">
+    <p class="eyebrow">Inscription</p>
+    <h1>Crée ton compte ColisComp.</h1>
+    <p>Choisis ton rôle : expediteur pour envoyer des colis, transporteur pour proposer des trajets et accepter les demandes.</p>
+  </div>
+
+  <div class="auth-card auth-card-wide">
+    <p class="eyebrow">Nouveau compte</p>
+    <h2>Informations personnelles</h2>
+
+    {% if error is defined %}
+      <div class="alert">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ path('app_register') }}" class="clean-form">
+      <div class="two">
+        <label>
+          Nom
+          <input name="nom" placeholder="Nom" value="{{ values.nom|default('') }}" required>
+        </label>
+        <label>
+          Prenom
+          <input name="prenom" placeholder="Prenom" value="{{ values.prenom|default('') }}" required>
+        </label>
+      </div>
+
+      <label>
+        Email
+        <input type="email" name="email" placeholder="exemple@email.com" value="{{ values.email|default('') }}" required>
+      </label>
+
+      <div class="two">
+        <label>
+          Mot de passe
+          <input type="password" name="motDePasse" placeholder="Minimum 6 caracteres" minlength="6" required>
+        </label>
+        <label>
+          Confirmer le mot de passe
+          <input type="password" name="confirmMotDePasse" placeholder="Retape le mot de passe" minlength="6" required>
+        </label>
+      </div>
+
+      <label>
+        Telephone
+        <input name="numeroTelephone" placeholder="Telephone" value="{{ values.numeroTelephone|default('') }}">
+      </label>
+
+      <label>
+        Adresse
+        <textarea name="adresse" placeholder="Adresse">{{ values.adresse|default('') }}</textarea>
+      </label>
+
+      <label>
+        Role
+        <select name="role">
+          <option value="expediteur" {{ values.role|default('expediteur') == 'expediteur' ? 'selected' : '' }}>Expediteur</option>
+          <option value="livreur" {{ values.role|default('expediteur') == 'livreur' ? 'selected' : '' }}>Transporteur</option>
+        </select>
+      </label>
+
+      <button class="btn" type="submit">Créer mon compte</button>
+    </form>
+
+    <div class="auth-switch">
+      <span>Tu as deja un compte ?</span>
+      <a href="{{ path('app_login') }}">Se connecter</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

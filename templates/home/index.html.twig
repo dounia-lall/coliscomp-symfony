@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ColisComp - Tableau de bord{% endblock %}
+
+{% block body %}
+{% set user = app.session.get('user') %}
+
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">
+      {{ user.role == 'expediteur' ? 'Espace expéditeur' : 'Espace transporteur' }}
+    </p>
+
+    {% if user.role == 'expediteur' %}
+      <h1>Envoyer un colis avec un transporteur de confiance.</h1>
+
+      <p class="lead">
+        Publie un colis, choisis parmi les trajets disponibles, paie en ligne après validation
+        et suis chaque étape depuis ton espace.
+      </p>
+
+      <div class="actions">
+        <a class="btn" href="{{ path('app_new_besoin') }}">Publier un colis</a>
+        <a class="btn secondary" href="{{ path('app_trajets') }}">Voir les trajets</a>
+      </div>
+    {% else %}
+      <h1>Transporter des colis sur tes trajets disponibles.</h1>
+
+      <p class="lead">
+        Publie tes trajets, accepte des colis, reçois les demandes et démarre la livraison après paiement.
+      </p>
+
+      <div class="actions">
+        <a class="btn" href="{{ path('app_new_trajet') }}">Proposer un trajet</a>
+        <a class="btn secondary" href="{{ path('app_besoins') }}">Voir les colis</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="hero-card">
+    <div class="route">
+      <b>Annonce</b><span>&rarr;</span><b>Paiement</b>
+    </div>
+
+    <p>Validation, paiement et notifications inclus dans le suivi du colis.</p>
+
+    <strong>
+      {{ transactions|length }}
+      {{ transactions|length > 1 ? 'transactions liées' : 'transaction liée' }}
+      à ton compte
+    </strong>
+  </div>
+</section>
+
+<section class="stats">
+  <div>
+    <strong>{{ transactions|length }}</strong>
+    <span>{{ transactions|length > 1 ? 'transactions' : 'transaction' }}</span>
+  </div>
+
+  <div>
+    <strong>{{ trajets|length }}</strong>
+    <span>{{ trajets|length > 1 ? 'trajets récents' : 'trajet récent' }}</span>
+  </div>
+
+  <div>
+    <strong>{{ besoins|length }}</strong>
+    <span>{{ besoins|length > 1 ? 'colis récents' : 'colis récent' }}</span>
+  </div>
+</section>
+{% endblock %}

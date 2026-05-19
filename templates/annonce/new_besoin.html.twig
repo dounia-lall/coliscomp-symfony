@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ is_edit|default(false) ? 'Modifier un colis' : 'Envoyer un colis' }}{% endblock %}
+{% block body %}
+<section class="form-shell">
+  <div class="form-copy">
+    <p class="eyebrow">Expéditeur</p>
+    <h1>{{ is_edit|default(false) ? 'Modifier les informations du colis' : 'Publier un colis à envoyer' }}</h1>
+    <p>Renseigne un depart, une destination, le poids et ton budget. Tu peux modifier cette annonce tant qu elle n est pas acceptee par un transporteur.</p>
+  </div>
+  <form method="post" enctype="multipart/form-data" class="form-card wide">
+    {% if errors is defined and errors %}
+      <div class="alert">{% for error in errors %}<p>{{ error }}</p>{% endfor %}</div>
+    {% endif %}
+    <div class="two">
+      <input name="point_depart" placeholder="Point de départ" value="{{ values.point_depart|default('') }}" required>
+      <input name="destination" placeholder="Déstination" value="{{ values.destination|default('') }}" required>
+    </div>
+    <textarea name="description" placeholder="Déscription du colis" required>{{ values.description|default('') }}</textarea>
+    <label class="upload-field">
+      <span>Photo du colis</span>
+      <input type="file" name="photo_colis" accept="image/*">
+      {% if values.photo_colis|default(null) %}
+        <img class="photo-preview" src="{{ asset('uploads/colis/' ~ values.photo_colis) }}" alt="Photo du colis">
+      {% endif %}
+    </label>
+    <div class="three">
+      <input type="number" step="0.01" min="0" name="poids" placeholder="Poids kg" value="{{ values.poids|default('') }}" required>
+      <input type="date" name="date_limite_envoi" value="{{ values.date_limite_envoi|default('') }}" required>
+      <input type="number" min="1" name="nombres_de_colis" placeholder="Nombre de colis" value="{{ values.nombres_de_colis|default(1) }}">
+    </div>
+    <input type="number" step="0.01" min="0" name="budget" placeholder="Budget propose" value="{{ values.budget|default('') }}" required>
+    <div class="actions-row">
+      <button class="btn" type="submit">{{ is_edit|default(false) ? 'Enregistrer' : 'Publier le colis' }}</button>
+      <a class="btn secondary" href="{{ path('app_my_besoins') }}">Retour</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
