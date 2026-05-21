@@ -10,7 +10,7 @@ ColisComp permet aux utilisateurs :
 - de publier des trajets disponibles,
 - de gérer les transactions et les livraisons,
 - d’échanger entre expéditeurs et transporteurs,
-- de suivre leurs envois depuis un tableau de bord moderne.
+- de suivre leurs envois depuis une interface moderne.
 
 Le projet propose deux rôles :
 
@@ -58,7 +58,6 @@ Le projet propose deux rôles :
 - MySQL
 - Doctrine DBAL
 - HTML / CSS
-- Docker
 
 ---
 
@@ -67,7 +66,7 @@ Le projet propose deux rôles :
 ### 1. Cloner le projet
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/dounia-lall/coliscomp-symfony.git
 ```
 
 ### 2. Installer les dépendances
@@ -185,6 +184,7 @@ http://localhost:8000
 ### Transporteurs disponibles
 
 ![Transporteurs Disponibles](screenshots/transporteurs-disponibles.png)
+
 ---
 
 ## Améliorations réalisées
