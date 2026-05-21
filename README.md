@@ -187,16 +187,19 @@ http://localhost:8000
 
 ---
 
-## Améliorations réalisées
+## Compétences développées
 
-- Migration vers Symfony
-- Architecture MVC propre
+Ce projet m’a permis de développer mes compétences en développement web backend et fullstack :
+
+- Symfony
+- Architecture MVC
 - Templates Twig
-- Interface modernisée
 - Gestion des utilisateurs
-- Upload d’image
-- Recherche d’annonces
-- Base SQL intégrée
+- Authentification
+- Intégration de base de données SQL
+- Upload et gestion d’images
+- Recherche et filtrage d’annonces
+- Développement d’interfaces web modernes
 
 ---
 
