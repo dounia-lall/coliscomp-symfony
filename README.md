@@ -1,6 +1,6 @@
 # ColisComp
 
-Plateforme collaborative de transport de colis développée avec Symfony, Twig et MySQL.
+Plateforme collaborative de transport de colis développée avec Symfony, Twig et MySQL et Stripe.
 
 ## Aperçu du projet
 
@@ -8,7 +8,7 @@ ColisComp permet aux utilisateurs :
 
 - d’envoyer des colis via des transporteurs particuliers,
 - de publier des trajets disponibles,
-- de gérer les transactions et les livraisons,
+- de gérer les transactions, les paiements en ligne et les livraisons,
 - d’échanger entre expéditeurs et transporteurs,
 - de suivre leurs envois depuis une interface moderne.
 
@@ -41,6 +41,13 @@ Le projet propose deux rôles :
 - Acceptation des demandes
 - Gestion des transports
 
+### Paiement
+
+- Intégration du paiement en ligne avec Stripe
+- Création d’une page de paiement dédiée
+- Gestion des transactions liées aux livraisons
+- Suivi du statut des paiements
+
 ### Interface
 
 - Dashboard moderne
@@ -57,6 +64,7 @@ Le projet propose deux rôles :
 - Twig
 - MySQL
 - Doctrine DBAL
+- Stripe
 - HTML / CSS
 
 ---
@@ -199,6 +207,7 @@ Ce projet m’a permis de développer mes compétences en développement web bac
 - Intégration de base de données SQL
 - Upload et gestion d’images
 - Recherche et filtrage d’annonces
+- Intégration de paiement en ligne avec Stripe
 - Développement d’interfaces web modernes
 
 ---
